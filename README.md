@@ -44,8 +44,7 @@ $ cd ./01-Generate-Test-Data
 $ node GenerateSampleData.ts
 $ cd CSV
 $ ls
-$ InsuranceCustomer.csv InsurancePolicy.csv   InsuranceProduct.csv
-
+InsuranceCustomer.csv InsurancePolicy.csv   InsuranceProduct.csv
 ```
 
 ## Step 2. Deploy Data Components as Code
