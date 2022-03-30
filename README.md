@@ -86,7 +86,7 @@ Disadvantages
 - Visual workflow editor supports joining 2 sources into one output as single step. Joining 3 tables requires multiple steps.
 - The output consists of many files, depending on number of workers (tested 10 workers => 36 files, 2 workers => 4 files).
 
-### Amazon Athena
+### Athena
 
 Athena offers a serverless, distributed SQL engine based on Presto Open Source that supports SQL queries.
 
@@ -128,6 +128,7 @@ ON policy.productid=product.productid;
 
 Advantages
 - Cost effective
+
 Disadvantage
 - only basic SQL support
   - no JOIN
