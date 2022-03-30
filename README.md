@@ -66,4 +66,76 @@ $ cdk deploy
 
 ## Step 3. Denormalize data
 
-...
+Denormalizing your data or joining various sources combines rows from 2 or more tables. In this usecase we need to join data from 3 tables.
+
+Tools considered for denormalization
+- Glue Data Studio
+- Athena
+
+### Glue Data Studio
+
+Glue Data Studio delivers a visual workflow editor that support [data transformations](https://docs.aws.amazon.com/glue/latest/ug/edit-jobs-transforms.html) such as JOIN.
+
+![Glue Data Workflow](Glue-Studio-Visual-Editor.png)
+
+Advantages
+- Based on Spark this option supports large tables.
+- Number of worker can be limited to 2 for small workloads.
+
+Disadvantages
+- Visual workflow editor supports joining 2 sources into one output as single step. Joining 3 tables requires multiple steps.
+- The output consists of many files, depending on number of workers (tested 10 workers => 36 files, 2 workers => 4 files).
+
+### Amazon Athena
+
+Athena offers a serverless, distributed SQL engine based on Presto Open Source that supports SQL queries.
+
+Advantages
+- SQL based
+- single step 3-way JOIN
+
+```SQL
+SELECT *
+FROM "insurance_database"."policy"
+JOIN "insurance_database"."customer" 
+ON policy.customerid=customer.customerid
+JOIN "insurance_database"."product" 
+ON policy.productid=product.productid;
+```
+
+## Step 4. Selection / Filtering
+
+Selecting a subset a data is required to create data partitions based on attributes. Usecase here is to select customers from specific countries. Evaluation of S3 Select, Athena and Glue.
+
+### Athena
+
+Advantages
+- Supports complex SQL
+  - including JOIN
+  - including DISTINCT, can be used for deduplication
+- Query multiple files/partitions at once
+
+```SQL
+SELECT DISTINCT *
+FROM "insurance_database"."policy"
+JOIN "insurance_database"."customer" 
+ON policy.customerid=customer.customerid
+JOIN "insurance_database"."product" 
+ON policy.productid=product.productid;
+```
+
+### S3 Select
+
+Advantages
+- Cost effective
+Disadvantage
+- only basic SQL support
+  - no JOIN
+  - no DISTINCT
+- only queries single S3 object at a time
+
+```SQL
+SELECT * FROM s3object s where s.country = 'NL'
+```
+
+Next step - store results in S3 + Catalog.

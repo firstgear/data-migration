@@ -34,7 +34,7 @@ console.log("Customer");
 console.log(Customer[0]);
 console.table(Customer);
 
-const ws_cust = fs.createWriteStream("./CSV/InsuranceCustomer.csv");
+const ws_cust = fs.createWriteStream("./CSV/Customer/InsuranceCustomer.csv");
 fastcsv
   .write(Customer, { headers: true })
   .pipe(ws_cust);
@@ -74,7 +74,7 @@ console.log("InsuranceProduct");
 console.log(InsuranceProduct[0]);
 console.table(InsuranceProduct);
 
-const ws_prod = fs.createWriteStream("./CSV/InsuranceProduct.csv");
+const ws_prod = fs.createWriteStream("./CSV/Product/InsuranceProduct.csv");
 fastcsv
   .write(InsuranceProduct, { headers: true })
   .pipe(ws_prod);
@@ -99,7 +99,7 @@ console.log("InsurancePolicy");
 console.log(InsurancePolicy[0]);
 console.table(InsurancePolicy);
 
-const ws_plcy = fs.createWriteStream("./CSV/InsurancePolicy.csv");
+const ws_plcy = fs.createWriteStream("./CSV/Policy/InsurancePolicy.csv");
 fastcsv
   .write(InsurancePolicy, { headers: true })
   .pipe(ws_plcy);
